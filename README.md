@@ -70,4 +70,4 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 
 <br>
 
-<img src="./images/pic2.png" alt="col_name" width="500"/>
+<img src="./images/pic2.png" alt="col_name" width="500"/> 
