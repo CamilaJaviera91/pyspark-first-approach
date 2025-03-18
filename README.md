@@ -4,11 +4,11 @@
 
 This code demonstrates how to integrate PySpark with datasets and perform simple data transformations. It loads a sample dataset using PySpark's built-in functionalities or reads data from external sources and converts it into a PySpark DataFrame for distributed processing and manipulation.
 
-## 🔥 What's pyspark?
+# 🔥 What's pyspark?
 
 - It's the Python API for Apache Spark, enabling the use of Spark with Python.
 
-### 🔑 Key Features:
+## 🔑 Key Features:
 
 1. **Distributed Computing:** Processes large datasets across a cluster of computers for scalability.
 2. **In-Memory Processing:** Speeds up computation by reducing disk I/O.
@@ -22,18 +22,18 @@ This code demonstrates how to integrate PySpark with datasets and perform simple
 6. **Resilient Distributed Datasets (RDDs):** Low-level API for distributed data handling.
 7. **DataFrames & Datasets:** High-level APIs for structured data with SQL-like operations.
 
-### ✅ Pros
+## ✅ Pros
 
 - Handles massive datasets efficiently.
 - Compatible with many tools (Hadoop, Cassandra, etc.).
 - Built-in libraries for SQL, Machine Learning, Streaming, Graph Processing.
 
-### ❌ Cons
+## ❌ Cons
 
 - Can be memory-intensive.
 - Complex configuration for cluster environments.
 
-### 🔧 Install pyspark
+## 🔧 Install pyspark
 
 1. Install via pip
 
