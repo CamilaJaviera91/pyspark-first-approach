@@ -46,3 +46,20 @@ pip install pyspark
 ```
 python3 -c "import pyspark; print(pyspark.__version__)"
 ```
+
+# 🛠️ Code Explanation 
+
+## 👩‍💻 data_utils.py
+
+### Explanation of the Code:
+
+#### kaggle_connect(stdscr):
+
+- Lets the user search for datasets and choose one to download.
+- Saves the dataset to a specified folder and loads the first CSV file into a DataFrame.
+
+#### col_name()
+
+- Lists all files in the ./data folder.
+- Lets the user pick a CSV file and rename its columns.
+- Saves the modified file as modified_data.csv in the same folder.
