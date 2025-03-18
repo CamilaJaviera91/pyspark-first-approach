@@ -1,5 +1,9 @@
 # Pyspark (First Approach)
 
+## 📝 Description
+
+This code demonstrates how to integrate PySpark with datasets and perform simple data transformations. It loads a sample dataset using PySpark's built-in functionalities or reads data from external sources (like CSV or Parquet files) and converts it into a PySpark DataFrame for distributed processing and manipulation.
+
 ## 🔥 What's pyspark?
 
 - It's the Python API for Apache Spark, enabling the use of Spark with Python.
