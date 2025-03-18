@@ -66,8 +66,8 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 
 ### ✅ Example Output:
 
-<img src="./src/images/pic1.png" alt="kaggle_connect" width="400"/>
+<img src="./images/pic1.png" alt="kaggle_connect" width="400"/>
 
 <br>
 
-<img src="./src/images/pic2.png" alt="col_name" width="400"/>
+<img src="./images/pic2.png" alt="col_name" width="400"/>
