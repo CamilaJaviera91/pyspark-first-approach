@@ -63,3 +63,11 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 - Lists all files in the ./data folder.
 - Lets the user pick a CSV file and rename its columns.
 - Saves the modified file as modified_data.csv in the same folder.
+
+### ✅ Example Output:
+
+<img src="./src/images/pic1.png" alt="kaggle_connect" width="400"/>
+
+<br>
+
+<img src="./src/images/pic2.png" alt="col_name" width="400"/>
