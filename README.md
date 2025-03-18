@@ -2,7 +2,7 @@
 
 ## 📝 Description
 
-This code demonstrates how to integrate PySpark with datasets and perform simple data transformations. It loads a sample dataset using PySpark's built-in functionalities or reads data from external sources (like CSV or Parquet files) and converts it into a PySpark DataFrame for distributed processing and manipulation.
+This code demonstrates how to integrate PySpark with datasets and perform simple data transformations. It loads a sample dataset using PySpark's built-in functionalities or reads data from external sources and converts it into a PySpark DataFrame for distributed processing and manipulation.
 
 ## 🔥 What's pyspark?
 
