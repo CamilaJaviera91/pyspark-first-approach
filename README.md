@@ -62,7 +62,7 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 
 - Lists all files in the ./data folder.
 - Lets the user pick a CSV file.
-- Lets rename the columns converting them to lowercase and replacing spaces with underscores (_).
+- Lets rename the columns converting them to lowercase and replacing spaces (" ") with underscores ("_") and parentheses ("()") and periods (.) with nothing.
 - Saves the modified file as modified_data.csv in the same folder.
 
 ### ✅ Example Output:
@@ -72,3 +72,5 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 <br>
 
 <img src="./images/pic2.png" alt="col_name" width="500"/> 
+
+<br>
