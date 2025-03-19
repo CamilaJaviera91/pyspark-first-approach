@@ -61,7 +61,8 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 #### col_name()
 
 - Lists all files in the ./data folder.
-- Lets the user pick a CSV file and rename its columns.
+- Lets the user pick a CSV file.
+- Lets rename the columns converting them to lowercase and replacing spaces with underscores (_).
 - Saves the modified file as modified_data.csv in the same folder.
 
 ### ✅ Example Output:
