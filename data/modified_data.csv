@@ -1,4 +1,4 @@
-country,population_2020,yearly_change,net_change,density,land_area,migrants,fert_rate,med_age,urban_pop,world_share
+country_(or_dependency),population_(2020),yearly_change,net_change,density_(p/km²),land_area_(km²),migrants_(net),fert._rate,med._age,urban_pop_%,world_share
 China,1440297825,0.39 %,5540090,153,9388211,-348399.0,1.7,38,61 %,18.47 %
 India,1382345085,0.99 %,13586631,464,2973190,-532687.0,2.2,28,35 %,17.70 %
 United States,331341050,0.59 %,1937734,36,9147420,954806.0,1.8,38,83 %,4.25 %
