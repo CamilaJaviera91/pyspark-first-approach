@@ -3,6 +3,7 @@ import pandas as pd
 from pathlib import Path
 import os
 import curses
+import numpy as np
 
 def kaggle_connect(stdscr):
     try:
@@ -123,8 +124,7 @@ def kaggle_connect(stdscr):
         stdscr.getch()
         return None
 
-def col_name():
-    folder_path = "./data"
+def col_name(folder_path):
 
     # List all files in the folder
     files_and_dirs = os.listdir(folder_path)
@@ -158,6 +158,24 @@ def col_name():
     df.to_csv(modified_file_path, index=False)
     print(f"\nModified dataset saved as: {modified_file_path}")
 
+def clean_data(folder_path):
+    
+    df = pd.read_csv(os.path.join(folder_path, "modified_data.csv"))
+    
+    for col in df:
+        df[col] = df[col].replace("N.A.", np.nan)
+        df[col] = df[col].fillna(0)
+    
+    clean_file_path = os.path.join(folder_path,"clean_data.csv")
+    df.to_csv(clean_file_path, index=False)
+    print(f"\Clean dataset saved as: {clean_file_path}")
+
 if __name__ == "__main__":
+    
+    folder_path = "./data/"
+    
     curses.wrapper(kaggle_connect)
-    col_name()
+    
+    col_name(folder_path)
+
+    clean_data(folder_path)
