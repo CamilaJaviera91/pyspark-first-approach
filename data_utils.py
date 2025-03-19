@@ -144,7 +144,7 @@ def col_name():
     new_columns = []
     print("\nRename columns:")
     for col in df.columns:
-        new_name = col.lower().replace(" ", "_")
+        new_name = col.lower().replace(" ", "_").replace(".", "").replace("(", "").replace(")", "")
         print(f"{col} -> {new_name}")
         if new_name:
             new_columns.append(new_name)
