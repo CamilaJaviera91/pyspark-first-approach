@@ -65,7 +65,7 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 - Lets rename the columns converting them to lowercase and replacing spaces (" ") with underscores ("_") and parentheses ("()") and periods (.) with nothing.
 - Saves the modified file as modified_data.csv in the same folder.
 
-### clean_data(folder_path):
+#### clean_data(folder_path):
 
 - Reads a CSV, replaces "N.A." with NaN, converts NaN to 0, and saves the result as clean_data.csv.
 
