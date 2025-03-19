@@ -53,17 +53,19 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 
 ### Explanation of the Code:
 
-#### kaggle_connect(stdscr):
+#### curses.wrapper(kaggle_connect):
 
 - Lets the user search for datasets and choose one to download.
 - Saves the dataset to a specified folder and loads the first CSV file into a DataFrame.
 
-#### col_name()
+#### col_name(folder_path):
 
 - Lists all files in the ./data folder.
 - Lets the user pick a CSV file.
 - Lets rename the columns converting them to lowercase and replacing spaces (" ") with underscores ("_") and parentheses ("()") and periods (.) with nothing.
 - Saves the modified file as modified_data.csv in the same folder.
+
+### clean_data(folder_path):
 
 ### ✅ Example Output:
 
