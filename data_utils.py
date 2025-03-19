@@ -168,7 +168,7 @@ def clean_data(folder_path):
     
     clean_file_path = os.path.join(folder_path,"clean_data.csv")
     df.to_csv(clean_file_path, index=False)
-    print(f"\Clean dataset saved as: {clean_file_path}")
+    print(f"\nClean dataset saved as: {clean_file_path}")
 
 if __name__ == "__main__":
     
