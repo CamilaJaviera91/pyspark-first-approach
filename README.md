@@ -86,3 +86,5 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 ## 👩‍💻 2. pyspark_first_approach.py
 
 ### Explanation of the Code:
+
+- The code loads a CSV, calculates the population percentage of each country, adds that information to the file, and saves it as **cleaned_data.csv**.
