@@ -80,3 +80,9 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 <br>
 
 <img src="./images/pic3.png" alt="clean_data" width="500"/>
+
+---
+
+## 👩‍💻 2. pyspark_first_approach.py
+
+### Explanation of the Code:
