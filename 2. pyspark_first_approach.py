@@ -64,8 +64,6 @@ def new_col(spark):
 
 def plot_data(spark):
     # Read the cleaned data CSV file using Spark
-    # The 'header=True' option ensures column names are properly loaded
-    # The 'inferSchema=True' option automatically detects the data types of each column
     df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
 
     # Convert the Spark DataFrame to a Pandas DataFrame to enable plotting with Matplotlib
