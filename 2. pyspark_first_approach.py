@@ -2,13 +2,9 @@ from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 import shutil
 import os
+import matplotlib.pyplot as plt
 
-def new_col():
-    # Create a Spark session
-    spark = SparkSession.builder.appName("Pyspark").getOrCreate()
-
-    # Set logging level to 'ERROR' to minimize logs
-    spark.sparkContext.setLogLevel("ERROR")
+def new_col(spark):
 
     # Read CSV file into a DataFrame with header and schema inference
     df = spark.read.csv("./data/clean_data.csv", header=True, inferSchema=True)
@@ -66,7 +62,26 @@ def new_col():
     # Print confirmation message with the file path
     print(f"File saved as: {output_file}")
 
+def plot_data(spark):
+    df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
+    df_pandas = df_data.select("country_or_dependency","percentage").toPandas()
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(df_pandas["country_or_dependency"][:10], df_pandas["percentage"][:10])
+    plt.xticks(rotation=45)
+    plt.title("Top 10 countries by population percentage")
+    plt.xlabel("Country or Dependency")
+    plt.ylabel("Percentage (%)")
+    plt.show()
 
 if __name__ == "__main__":
+    # Create a Spark session
+    spark = SparkSession.builder.appName("Pyspark").getOrCreate()
+
+    # Set logging level to 'ERROR' to minimize logs
+    spark.sparkContext.setLogLevel("ERROR")
+
     # Run the function if the script is executed directly
-    new_col()
+    new_col(spark)
+
+    plot_data(spark)
