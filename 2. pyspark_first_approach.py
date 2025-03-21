@@ -71,11 +71,17 @@ def plot_data(spark):
 
     # Plot the top 10 countries by population percentage using a bar chart
     plt.figure(figsize=(10, 6))  # Set the figure size
-    plt.bar(df_pandas["country_or_dependency"][:10], df_pandas["percentage"][:10])
+    bars = plt.bar(df_pandas["country_or_dependency"][:10], df_pandas["percentage"][:10])
     plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
     plt.title("Top 10 Countries by Population Percentage")  # Set the title of the plot
     plt.xlabel("Country or Dependency")  # Label for the x-axis
     plt.ylabel("Percentage (%)")  # Label for the y-axis
+
+     # Add values on top of the bars
+    for bar in bars:
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width() / 2.0, height, f'{height}%', ha='center', va='bottom', fontsize=10)
+
     plt.show()  # Display the plot
 
 if __name__ == "__main__":
