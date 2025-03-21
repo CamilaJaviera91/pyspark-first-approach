@@ -63,16 +63,22 @@ def new_col(spark):
     print(f"File saved as: {output_file}")
 
 def plot_data(spark):
+    # Read the cleaned data CSV file using Spark
+    # The 'header=True' option ensures column names are properly loaded
+    # The 'inferSchema=True' option automatically detects the data types of each column
     df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
-    df_pandas = df_data.select("country_or_dependency","percentage").toPandas()
 
-    plt.figure(figsize=(10, 6))
+    # Convert the Spark DataFrame to a Pandas DataFrame to enable plotting with Matplotlib
+    df_pandas = df_data.select("country_or_dependency", "percentage").toPandas()
+
+    # Plot the top 10 countries by population percentage using a bar chart
+    plt.figure(figsize=(10, 6))  # Set the figure size
     plt.bar(df_pandas["country_or_dependency"][:10], df_pandas["percentage"][:10])
-    plt.xticks(rotation=45)
-    plt.title("Top 10 countries by population percentage")
-    plt.xlabel("Country or Dependency")
-    plt.ylabel("Percentage (%)")
-    plt.show()
+    plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+    plt.title("Top 10 Countries by Population Percentage")  # Set the title of the plot
+    plt.xlabel("Country or Dependency")  # Label for the x-axis
+    plt.ylabel("Percentage (%)")  # Label for the y-axis
+    plt.show()  # Display the plot
 
 if __name__ == "__main__":
     # Create a Spark session
