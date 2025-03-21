@@ -87,8 +87,18 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 
 ### Explanation of the Code:
 
+#### new_col(spark):
+
 - The code loads a CSV, calculates the population percentage of each country, adds that information to the file, and saves it as **cleaned_data.csv**.
+
+#### plot_data(spark):
+
+- This code reads a CSV with PySpark, converts the data to Pandas, and creates a bar chart showing the top 10 countries by population percentage.
 
 ### ✅ Example Output:
 
 <img src="./images/pic4.png" alt="pyspark" width="500"/>
+
+<br>
+
+<img src="./images/pic5.png" alt="plot" width="500"/>
