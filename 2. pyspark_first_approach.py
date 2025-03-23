@@ -84,6 +84,20 @@ def plot_data(spark):
 
     plt.show()  # Display the plot
 
+def create_table(spark):
+    # Read the cleaned data CSV file using Spark
+    df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
+
+    df_data.createOrReplaceTempView("population_table")
+
+    result = spark.sql("""
+        SELECT country_or_dependency AS country, population_2020 AS population, percentage_formatted AS percentage 
+        FROM population_table
+        ORDER BY population_2020 DESC
+        LIMIT 10
+    """)
+    result.show()
+
 if __name__ == "__main__":
     # Create a Spark session
     spark = SparkSession.builder.appName("Pyspark").getOrCreate()
@@ -95,3 +109,5 @@ if __name__ == "__main__":
     new_col(spark)
 
     plot_data(spark)
+
+    create_table(spark)
