@@ -51,6 +51,16 @@ python3 -c "import pyspark; print(pyspark.__version__)"
 
 ## 👩‍💻 1. data_utils.py
 
+### 🔧 Install libraries that we are going to need:
+
+```
+pip install kaggle pandas numpy
+```
+
+```
+pip install windows-curses
+```
+
 ### Explanation of the Code:
 
 #### curses.wrapper(kaggle_connect):
