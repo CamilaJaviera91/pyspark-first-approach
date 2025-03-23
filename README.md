@@ -118,3 +118,7 @@ pip install pyspark matplotlib fpdf
 <br>
 
 <img src="./images/pic5.png" alt="plot" width="500"/>
+
+<br>
+
+<img src="./images/pic6.png" alt="table" width="500"/>
