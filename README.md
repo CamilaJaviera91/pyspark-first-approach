@@ -95,6 +95,12 @@ pip install windows-curses
 
 ## 👩‍💻 2. pyspark_first_approach.py
 
+### 🔧 Install libraries that we are going to need:
+
+```
+pip install pyspark matplotlib fpdf
+```
+
 ### Explanation of the Code:
 
 #### new_col(spark):
