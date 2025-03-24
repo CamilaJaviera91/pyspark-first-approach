@@ -121,7 +121,7 @@ pip install pyspark matplotlib fpdf
 
 #### create_report(spark):
 
-- 
+- This code reads a CSV file, selects data for all countries, and generates a PDF containing a table with country names, population, urban population, and percentages. It then saves the PDF to a specified folder.
 
 ### ✅ Example Output:
 
