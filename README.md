@@ -144,3 +144,17 @@ pip install pyspark matplotlib fpdf
 - **create_report(spark):**
 
 <img src="./images/pic8.png" alt="pdf" width="500"/>
+
+---
+
+## 👩‍💻 1. data_utils.py
+
+### 🔧 Install libraries that we are going to need:
+
+```
+pip install gspread google-auth google-auth-oauthlib google-auth-httplib2 pyspark
+```
+
+### 📖 Explanation of the Code:
+
+### ✅ Example Output:
