@@ -61,7 +61,7 @@ pip install kaggle pandas numpy
 pip install windows-curses
 ```
 
-### Explanation of the Code:
+### 📖 Explanation of the Code:
 
 #### curses.wrapper(kaggle_connect):
 
@@ -101,7 +101,7 @@ pip install windows-curses
 pip install pyspark matplotlib fpdf
 ```
 
-### Explanation of the Code:
+### 📖 Explanation of the Code:
 
 #### new_col(spark):
 
