@@ -121,18 +121,18 @@ pip install pyspark matplotlib fpdf
 
 ### ✅ Example Output:
 
-- new_col(spark):
+- **new_col(spark):**
 
 <img src="./images/pic4.png" alt="pyspark" width="500"/>
 
-- plot_data(spark):
+- **plot_data(spark):**
 
 <img src="./images/pic5.png" alt="plot" width="500"/>
 
-- plot_pie_chart(spark):
+- **plot_pie_chart(spark):**
 
 <img src="./images/pic7.png" alt="pie_chart" width="500"/>
 
-- create_table(spark):
+- **create_table(spark):**
 
 <img src="./images/pic6.png" alt="table" width="500"/>
