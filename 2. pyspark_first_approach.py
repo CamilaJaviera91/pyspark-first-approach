@@ -169,7 +169,7 @@ def create_report(spark):
     # Register the DataFrame as a temporary SQL view to allow SQL queries
     df_data.createOrReplaceTempView("population_table")
 
-    # Run a SQL query to select the top 10 countries by population
+    # Run a SQL query
     result = spark.sql("""
                         SELECT 
                             country_or_dependency AS `Country`, 
