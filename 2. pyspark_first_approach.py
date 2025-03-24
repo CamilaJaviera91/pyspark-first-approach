@@ -1,9 +1,9 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from fpdf import FPDF
 import shutil
 import os
 import matplotlib.pyplot as plt
-from fpdf import FPDF
 
 def new_col(spark):
 
@@ -41,6 +41,13 @@ def new_col(spark):
 
     # Format the percentage as a string with a '%' symbol
     df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
+
+    df = df.withColumn("urban_pop", 
+                   (F.col("population_2020") * 
+                    (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100))
+                  )
+    df = df.withColumn("urban_pop_formatted", 
+                   F.format_number(F.col("urban_pop"), 2))
 
     # Define the output folder and file paths
     output_folder = "./data/cleaned_data_output/"
