@@ -1,9 +1,9 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from fpdf import FPDF
 import shutil
 import os
 import matplotlib.pyplot as plt
-from fpdf import FPDF
 
 def new_col(spark):
 
@@ -41,6 +41,13 @@ def new_col(spark):
 
     # Format the percentage as a string with a '%' symbol
     df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
+
+    df = df.withColumn("urban_pop", 
+                   (F.col("population_2020") * 
+                    (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100))
+                  )
+    df = df.withColumn("urban_pop_formatted", 
+                   F.format_number(F.col("urban_pop"), 2))
 
     # Define the output folder and file paths
     output_folder = "./data/cleaned_data_output/"
@@ -155,6 +162,65 @@ def create_table(spark):
     pdf.output(pdf_file)
     print(f"PDF saved as: {pdf_file}")
 
+def create_report(spark):
+    # Read the cleaned data CSV file using Spark and create a DataFrame
+    df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
+
+    # Register the DataFrame as a temporary SQL view to allow SQL queries
+    df_data.createOrReplaceTempView("population_table")
+
+    # Run a SQL query to select the top 10 countries by population
+    result = spark.sql("""
+                        SELECT 
+                            country_or_dependency AS `Country`, 
+                            population_2020 AS `Population`, 
+                            percentage_formatted AS `Percentage`,
+                            `urban_pop_%` AS `% Urban Population`,
+                            urban_pop_formatted AS `Urban Population`
+                        FROM population_table
+                        ORDER BY population_2020 DESC
+                    """)
+
+    # Show the result in the console for verification
+    result.show()
+
+    # Convert the Spark DataFrame to a Pandas DataFrame for easier manipulation
+    df_pandas = result.toPandas()
+
+    # Create a new PDF document
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=10)
+
+    # Add a title to the PDF document
+    pdf.set_font("Arial", "B", 10)
+    pdf.cell(0, 10, "Countries", ln=True, align='C')
+    pdf.ln(10)
+
+    # Add table headers to the PDF
+    pdf.set_font("Arial", "B", 10)
+    pdf.cell(40, 10, "Country", 1, 0, 'C')
+    pdf.cell(40, 10, "Population", 1, 0, 'C')
+    pdf.cell(40, 10, "Percentage", 1, 0, 'C')
+    pdf.cell(40, 10, "% Urban Population", 1, 0, 'C')
+    pdf.cell(40, 10, "Urban Population", 1, 1, 'C')
+
+    # Add the rows of data to the PDF
+    pdf.set_font("Arial", size=10)
+    for index, row in df_pandas.iterrows():
+        pdf.cell(40, 10, row["Country"], 1, 0, 'C')
+        pdf.cell(40, 10, str(row["Population"]), 1, 0, 'C')
+        pdf.cell(40, 10, row["Percentage"], 1, 0, 'C')
+        pdf.cell(40, 10, str(row["% Urban Population"]), 1, 0, 'C')
+        pdf.cell(40, 10, row["Urban Population"], 1, 1, 'C')
+
+    # Define the file path to save the PDF
+    pdf_file = "./data/cleaned_data_output/pdf_report.pdf"
+
+    # Save the generated PDF file
+    pdf.output(pdf_file)
+    print(f"PDF saved as: {pdf_file}")
+
 if __name__ == "__main__":
     # Create a Spark session
     spark = SparkSession.builder.appName("Pyspark").getOrCreate()
@@ -170,3 +236,5 @@ if __name__ == "__main__":
     plot_pie_chart(spark)
 
     create_table(spark)
+
+    create_report(spark)
