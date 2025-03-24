@@ -111,6 +111,10 @@ pip install pyspark matplotlib fpdf
 
 - This code reads a CSV with PySpark, converts the data to Pandas, and creates a bar chart showing the top 10 countries by population percentage.
 
+#### plot_pie_chart(spark):
+
+- Reads the cleaned CSV, converts it to Pandas, selects the top 10 countries by population percentage, and generates a pie chart with percentages.
+
 #### create_table(spark):
 
 - This code reads a CSV file, selects the top 10 most populated countries, and generates a PDF with a table showing the country, population, and percentage. It then saves the PDF in a folder.
@@ -125,8 +129,8 @@ pip install pyspark matplotlib fpdf
 
 <br>
 
-<img src="./images/pic6.png" alt="table" width="500"/>
+<img src="./images/pic7.png" alt="pie_chart" width="500"/>
 
 <br>
 
-<img src="./images/pic7.png" alt="pie_chart" width="500"/>
+<img src="./images/pic6.png" alt="table" width="500"/>
