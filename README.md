@@ -158,3 +158,9 @@ pip install gspread google-auth google-auth-oauthlib google-auth-httplib2 pyspar
 ### 📖 Explanation of the Code:
 
 ### ✅ Example Output:
+
+[Resultado](https://docs.google.com/spreadsheets/d/1pSiXTnYu4h5zXh78hBEJKnkdSa_W_9krg7BKcQdYI-4/edit?gid=976230421#gid=976230421)
+
+<br>
+
+<img src="./images/pic9.png" alt="sheets" width="500"/>
