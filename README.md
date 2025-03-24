@@ -157,10 +157,10 @@ pip install gspread google-auth google-auth-oauthlib google-auth-httplib2 pyspar
 
 ### 📖 Explanation of the Code:
 
+- This code reads a CSV file, clears a Google Sheets document, and saves the CSV data into that sheet.
+
 ### ✅ Example Output:
 
-[Resultado](https://docs.google.com/spreadsheets/d/1pSiXTnYu4h5zXh78hBEJKnkdSa_W_9krg7BKcQdYI-4/edit?gid=976230421#gid=976230421)
-
-<br>
+- [Google Sheets Results](https://docs.google.com/spreadsheets/d/1pSiXTnYu4h5zXh78hBEJKnkdSa_W_9krg7BKcQdYI-4/edit?gid=976230421#gid=976230421)
 
 <img src="./images/pic9.png" alt="sheets" width="500"/>
