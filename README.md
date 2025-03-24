@@ -147,7 +147,7 @@ pip install pyspark matplotlib fpdf
 
 ---
 
-## 👩‍💻 1. data_utils.py
+## 👩‍💻 3. googlesheets.py
 
 ### 🔧 Install libraries that we are going to need:
 
