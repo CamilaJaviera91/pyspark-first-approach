@@ -4,6 +4,16 @@ from fpdf import FPDF
 import shutil
 import os
 import matplotlib.pyplot as plt
+import hashlib
+
+def get_file_hash(file_path):
+    """Returns the SHA-256 hash of a file"""
+    if not os.path.exists(file_path):
+        return None
+    hasher = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        hasher.update(f.read())
+    return hasher.hexdigest()
 
 def new_col(spark):
 
@@ -109,13 +119,11 @@ def plot_pie_chart(spark):
     plt.show()
 
 def create_table(spark):
-    # Read the cleaned data CSV file using Spark and create a DataFrame
+    # Read CSV with Spark
     df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
-
-    # Register the DataFrame as a temporary SQL view to allow SQL queries
     df_data.createOrReplaceTempView("population_table")
 
-    # Run a SQL query to select the top 10 countries by population
+    # Select top 10 countries by population
     result = spark.sql("""
         SELECT country_or_dependency AS country, 
                population_2020 AS population, 
@@ -125,10 +133,9 @@ def create_table(spark):
         LIMIT 10
     """)
 
-    # Convert the Spark DataFrame to a Pandas DataFrame
     df_pandas = result.toPandas()
 
-    # Generate the PDF content in memory
+    # Create PDF
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", "B", 14)
@@ -146,29 +153,21 @@ def create_table(spark):
         pdf.cell(60, 10, str(row["population"]), 1, 0, 'C')
         pdf.cell(60, 10, row["percentage"], 1, 1, 'C')
 
-    # Convert PDF to bytes for comparison
-    new_pdf_content = pdf.output(dest='S').encode('latin1')
-
-    # Define the file path
     pdf_file = "./data/cleaned_data_output/population_report.pdf"
 
-    # Check if the file exists and compare content
-    if os.path.exists(pdf_file):
-        with open(pdf_file, "rb") as existing_file:
-            old_pdf_content = existing_file.read()
-        if old_pdf_content == new_pdf_content:
-            print("No changes detected. PDF not saved.")
-            return
+    # Get old hash before saving
+    old_hash = get_file_hash(pdf_file)
 
-    # Save the new PDF only if different
-    with open(pdf_file, "wb") as file:
-        file.write(new_pdf_content)
-    
-    print(f"PDF saved as: {pdf_file}")
+    # Save new PDF
+    pdf.output(pdf_file)
 
-# Example usage
-spark = SparkSession.builder.appName("CSV_to_GoogleSheets").getOrCreate()
-create_table(spark)
+    # Get new hash after saving
+    new_hash = get_file_hash(pdf_file)
+
+    if old_hash == new_hash:
+        print("No changes detected. PDF not modified.")
+    else:
+        print(f"PDF saved as: {pdf_file}")
 
 def create_report(spark):
     # Read the cleaned data CSV file using Spark and create a DataFrame
