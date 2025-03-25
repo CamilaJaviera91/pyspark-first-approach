@@ -86,7 +86,6 @@ def new_col(spark):
     except Exception as e:
         logger.error(f"Error al procesar el archivo CSV: {str(e)}")
 
-
 def plot_data(spark):
     # Read the cleaned data CSV file using Spark
     df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
