@@ -56,11 +56,8 @@ def new_col(spark):
         df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
 
         df = df.withColumn("urban_pop", 
-                    (F.col("population_2020") * 
-                        (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100))
-                    )
-        df = df.withColumn("urban_pop_formatted", 
-                    F.format_number(F.col("urban_pop"), 2))
+                    F.format_number((F.col("population_2020") * 
+                        (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)), 2))
 
         # Define the output folder and file paths
         output_folder = "./data/cleaned_data_output/"
@@ -189,7 +186,7 @@ def create_report(spark):
                             population_2020 AS `Population`, 
                             percentage_formatted AS `Percentage`,
                             `urban_pop_%` AS `% Urban Population`,
-                            urban_pop_formatted AS `Urban Population`
+                            urban_pop AS `Urban Population`
                         FROM population_table
                         ORDER BY population_2020 DESC
                     """)
