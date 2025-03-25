@@ -4,6 +4,16 @@ from fpdf import FPDF
 import shutil
 import os
 import matplotlib.pyplot as plt
+import hashlib
+
+def get_file_hash(file_path):
+    """Returns the SHA-256 hash of a file"""
+    if not os.path.exists(file_path):
+        return None
+    hasher = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        hasher.update(f.read())
+    return hasher.hexdigest()
 
 def new_col(spark):
 
@@ -109,14 +119,11 @@ def plot_pie_chart(spark):
     plt.show()
 
 def create_table(spark):
-    # Read the cleaned data CSV file using Spark and create a DataFrame
+    # Read CSV with Spark
     df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
-
-    # Register the DataFrame as a temporary SQL view to allow SQL queries
     df_data.createOrReplaceTempView("population_table")
 
-    # Run a SQL query to select the top 10 countries by population
-    # Ordering by population_2020 in descending order
+    # Select top 10 countries by population
     result = spark.sql("""
         SELECT country_or_dependency AS country, 
                population_2020 AS population, 
@@ -126,41 +133,41 @@ def create_table(spark):
         LIMIT 10
     """)
 
-    # Show the result in the console for verification
-    result.show()
-
-    # Convert the Spark DataFrame to a Pandas DataFrame for easier manipulation
     df_pandas = result.toPandas()
 
-    # Create a new PDF document
+    # Create PDF
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
-
-    # Add a title to the PDF document
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, "Top 10 Countries by Population", ln=True, align='C')
     pdf.ln(10)
 
-    # Add table headers to the PDF
     pdf.set_font("Arial", "B", 12)
     pdf.cell(60, 10, "Country", 1, 0, 'C')
     pdf.cell(60, 10, "Population", 1, 0, 'C')
     pdf.cell(60, 10, "Percentage", 1, 1, 'C')
 
-    # Add the rows of data to the PDF
     pdf.set_font("Arial", size=12)
-    for index, row in df_pandas.iterrows():
-        pdf.cell(60, 10, row["country"], 1, 0, 'C')  # Add country name
-        pdf.cell(60, 10, str(row["population"]), 1, 0, 'C')  # Add population as string
-        pdf.cell(60, 10, row["percentage"], 1, 1, 'C')  # Add population percentage
+    for _, row in df_pandas.iterrows():
+        pdf.cell(60, 10, row["country"], 1, 0, 'C')
+        pdf.cell(60, 10, str(row["population"]), 1, 0, 'C')
+        pdf.cell(60, 10, row["percentage"], 1, 1, 'C')
 
-    # Define the file path to save the PDF
     pdf_file = "./data/cleaned_data_output/population_report.pdf"
 
-    # Save the generated PDF file
+    # Get old hash before saving
+    old_hash = get_file_hash(pdf_file)
+
+    # Save new PDF
     pdf.output(pdf_file)
-    print(f"PDF saved as: {pdf_file}")
+
+    # Get new hash after saving
+    new_hash = get_file_hash(pdf_file)
+
+    if old_hash == new_hash:
+        print("No changes detected. PDF not modified.")
+    else:
+        print(f"PDF saved as: {pdf_file}")
 
 def create_report(spark):
     # Read the cleaned data CSV file using Spark and create a DataFrame
@@ -217,9 +224,19 @@ def create_report(spark):
     # Define the file path to save the PDF
     pdf_file = "./data/cleaned_data_output/pdf_report.pdf"
 
-    # Save the generated PDF file
+     # Get old hash before saving
+    old_hash = get_file_hash(pdf_file)
+
+    # Save new PDF
     pdf.output(pdf_file)
-    print(f"PDF saved as: {pdf_file}")
+
+    # Get new hash after saving
+    new_hash = get_file_hash(pdf_file)
+
+    if old_hash == new_hash:
+        print("No changes detected. PDF not modified.")
+    else:
+        print(f"PDF saved as: {pdf_file}")
 
 if __name__ == "__main__":
     # Create a Spark session
