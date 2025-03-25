@@ -224,9 +224,19 @@ def create_report(spark):
     # Define the file path to save the PDF
     pdf_file = "./data/cleaned_data_output/pdf_report.pdf"
 
-    # Save the generated PDF file
+     # Get old hash before saving
+    old_hash = get_file_hash(pdf_file)
+
+    # Save new PDF
     pdf.output(pdf_file)
-    print(f"PDF saved as: {pdf_file}")
+
+    # Get new hash after saving
+    new_hash = get_file_hash(pdf_file)
+
+    if old_hash == new_hash:
+        print("No changes detected. PDF not modified.")
+    else:
+        print(f"PDF saved as: {pdf_file}")
 
 if __name__ == "__main__":
     # Create a Spark session
