@@ -157,10 +157,20 @@ pip install gspread google-auth google-auth-oauthlib google-auth-httplib2 pyspar
 
 ### 📖 Explanation of the Code:
 
+#### pyspark(client):
+
+- This code reads a CSV file, clears a Google Sheets document, and saves the CSV data into that sheet.
+
+#### analysis(client):
+
 - This code reads a CSV file, clears a Google Sheets document, and saves the CSV data into that sheet.
 
 ### ✅ Example Output:
 
-- [Google Sheets Results](https://docs.google.com/spreadsheets/d/1pSiXTnYu4h5zXh78hBEJKnkdSa_W_9krg7BKcQdYI-4/edit?gid=976230421#gid=976230421)
+- [pyspark Google Sheets Results](https://docs.google.com/spreadsheets/d/1pSiXTnYu4h5zXh78hBEJKnkdSa_W_9krg7BKcQdYI-4/edit?gid=976230421#gid=976230421)
 
-<img src="./images/pic9.png" alt="sheets" width="500"/>
+<img src="./images/pic9.png" alt="pyspark_sheets" width="500"/>
+
+- [analysis Google Sheets Results](https://docs.google.com/spreadsheets/d/18wRRxOMM7CLxhgdykeiBDs_8xr9kCg0ZIHyr7UFXw2k/edit?pli=1&gid=0#gid=0)
+
+<img src="./images/pic11.png" alt="analysis_sheets" width="500"/>
