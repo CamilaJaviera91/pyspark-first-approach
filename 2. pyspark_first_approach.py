@@ -5,6 +5,7 @@ import shutil
 import os
 import matplotlib.pyplot as plt
 import hashlib
+import logging
 
 def get_file_hash(file_path):
     """Returns the SHA-256 hash of a file"""
@@ -17,68 +18,74 @@ def get_file_hash(file_path):
 
 def new_col(spark):
 
-    # Read CSV file into a DataFrame with header and schema inference
-    df = spark.read.csv("./data/clean_data.csv", header=True, inferSchema=True)
+    try:
+        # Read CSV file into a DataFrame with header and schema inference
+        df = spark.read.csv("./data/clean_data.csv", header=True, inferSchema=True)
+        logger.info("Archivo CSV cargado exitosamente.")
 
-    print("\n")
+        print("\n")
 
-    # Print the schema of the DataFrame
-    df.printSchema()
+        # Print the schema of the DataFrame
+        df.printSchema()
 
-    # Count the number of rows in the DataFrame
-    count_files = df.count()
+        # Count the number of rows in the DataFrame
+        count_files = df.count()
 
-    # Count the number of columns in the DataFrame
-    count_col = len(df.columns)
+        # Count the number of columns in the DataFrame
+        count_col = len(df.columns)
 
-    # Display the total number of rows and columns
-    print(f"We are working with '{count_files}' rows and '{count_col}' columns.\n")
+        # Display the total number of rows and columns
+        print(f"We are working with '{count_files}' rows and '{count_col}' columns.\n")
 
-    # Convert 'country_or_dependency' column to uppercase
-    df = df.withColumn("country_or_dependency", F.upper(F.col("country_or_dependency")))
+        # Convert 'country_or_dependency' column to uppercase
+        df = df.withColumn("country_or_dependency", F.upper(F.col("country_or_dependency")))
 
-    # Calculate total population for the year 2020
-    total_population_value = df.agg(F.sum("population_2020").alias("total_population")).collect()[0]["total_population"]
+        # Calculate total population for the year 2020
+        total_population_value = df.agg(F.sum("population_2020").alias("total_population")).collect()[0]["total_population"]
 
-    # Print the total population with formatted output
-    print(f"Total Population: {"{:,}".format(total_population_value).replace(",", ".")} people in 2020\n")
+        # Print the total population with formatted output
+        print(f"Total Population: {"{:,}".format(total_population_value).replace(",", ".")} people in 2020\n")
 
-    # Add a new column 'total_population' with the calculated value to each row
-    df = df.withColumn("total_population", F.lit(total_population_value))
+        # Add a new column 'total_population' with the calculated value to each row
+        df = df.withColumn("total_population", F.lit(total_population_value))
 
-    # Calculate the percentage of the population for each row and round to 2 decimal places
-    df = df.withColumn("percentage", F.round((F.col("population_2020") / F.col("total_population")) * 100, 2))
+        # Calculate the percentage of the population for each row and round to 2 decimal places
+        df = df.withColumn("percentage", F.round((F.col("population_2020") / F.col("total_population")) * 100, 2))
 
-    # Format the percentage as a string with a '%' symbol
-    df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
+        # Format the percentage as a string with a '%' symbol
+        df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
 
-    df = df.withColumn("urban_pop", 
-                   (F.col("population_2020") * 
-                    (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100))
-                  )
-    df = df.withColumn("urban_pop_formatted", 
-                   F.format_number(F.col("urban_pop"), 2))
+        df = df.withColumn("urban_pop", 
+                    (F.col("population_2020") * 
+                        (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100))
+                    )
+        df = df.withColumn("urban_pop_formatted", 
+                    F.format_number(F.col("urban_pop"), 2))
 
-    # Define the output folder and file paths
-    output_folder = "./data/cleaned_data_output/"
-    output_file = "./data/cleaned_data_output/cleaned_data.csv"
+        # Define the output folder and file paths
+        output_folder = "./data/cleaned_data_output/"
+        output_file = "./data/cleaned_data_output/cleaned_data.csv"
 
-    # Write the DataFrame to a CSV file, overwriting any existing files
-    df.coalesce(1).write.mode("overwrite").option("header", "true").csv(output_folder)
+        # Write the DataFrame to a CSV file, overwriting any existing files
+        df.coalesce(1).write.mode("overwrite").option("header", "true").csv(output_folder)
 
-    # Move the output file from the part-* file to the desired file name
-    for filename in os.listdir(output_folder):
-        if filename.startswith("part-") and filename.endswith(".csv"):
-            shutil.move(os.path.join(output_folder, filename), output_file)
-            break
+        # Move the output file from the part-* file to the desired file name
+        for filename in os.listdir(output_folder):
+            if filename.startswith("part-") and filename.endswith(".csv"):
+                shutil.move(os.path.join(output_folder, filename), output_file)
+                break
 
-    # Remove unnecessary files (_SUCCESS and .crc files) from the output folder
-    for filename in os.listdir(output_folder):
-        if filename.startswith("_SUCCESS") or filename.endswith(".crc"):
-            os.remove(os.path.join(output_folder, filename))
+        # Remove unnecessary files (_SUCCESS and .crc files) from the output folder
+        for filename in os.listdir(output_folder):
+            if filename.startswith("_SUCCESS") or filename.endswith(".crc"):
+                os.remove(os.path.join(output_folder, filename))
 
-    # Print confirmation message with the file path
-    print(f"File saved as: {output_file}")
+        # Print confirmation message with the file path
+        print(f"File saved as: {output_file}")
+    
+    except Exception as e:
+        logger.error(f"Error al procesar el archivo CSV: {str(e)}")
+
 
 def plot_data(spark):
     # Read the cleaned data CSV file using Spark
@@ -244,6 +251,12 @@ if __name__ == "__main__":
 
     # Set logging level to 'ERROR' to minimize logs
     spark.sparkContext.setLogLevel("ERROR")
+
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s - %(levelname)s - %(message)s',
+                        handlers=[logging.StreamHandler()])
+    
+    logger = logging.getLogger(__name__)
 
     # Run the function if the script is executed directly
     new_col(spark)
