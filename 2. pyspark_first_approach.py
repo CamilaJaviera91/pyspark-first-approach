@@ -21,7 +21,7 @@ def new_col(spark):
     try:
         # Read CSV file into a DataFrame with header and schema inference
         df = spark.read.csv("./data/clean_data.csv", header=True, inferSchema=True)
-        logger.info("Archivo CSV cargado exitosamente.")
+        logger.info("CSV file successfully loaded.")
 
         print("\n")
 
@@ -84,7 +84,7 @@ def new_col(spark):
         print(f"File saved as: {output_file}")
     
     except Exception as e:
-        logger.error(f"Error al procesar el archivo CSV: {str(e)}")
+        logger.error(f"Error processing the CSV file: {str(e)}")
 
 def plot_data(spark):
     # Read the cleaned data CSV file using Spark
