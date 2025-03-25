@@ -174,3 +174,17 @@ pip install gspread google-auth google-auth-oauthlib google-auth-httplib2 pyspar
 - [analysis Google Sheets Results](https://docs.google.com/spreadsheets/d/18wRRxOMM7CLxhgdykeiBDs_8xr9kCg0ZIHyr7UFXw2k/edit?pli=1&gid=0#gid=0)
 
 <img src="./images/pic11.png" alt="analysis_sheets" width="500"/>
+
+---
+
+## 👩‍💻 4. analysis.py
+
+### 🔧 Install libraries that we are going to need:
+
+```
+pip install pyspark
+```
+
+### 📖 Explanation of the Code:
+
+### 📖 Explanation of the Code:
