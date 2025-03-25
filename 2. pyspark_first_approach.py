@@ -116,7 +116,6 @@ def create_table(spark):
     df_data.createOrReplaceTempView("population_table")
 
     # Run a SQL query to select the top 10 countries by population
-    # Ordering by population_2020 in descending order
     result = spark.sql("""
         SELECT country_or_dependency AS country, 
                population_2020 AS population, 
@@ -126,41 +125,50 @@ def create_table(spark):
         LIMIT 10
     """)
 
-    # Show the result in the console for verification
-    result.show()
-
-    # Convert the Spark DataFrame to a Pandas DataFrame for easier manipulation
+    # Convert the Spark DataFrame to a Pandas DataFrame
     df_pandas = result.toPandas()
 
-    # Create a new PDF document
+    # Generate the PDF content in memory
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
-
-    # Add a title to the PDF document
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, "Top 10 Countries by Population", ln=True, align='C')
     pdf.ln(10)
 
-    # Add table headers to the PDF
     pdf.set_font("Arial", "B", 12)
     pdf.cell(60, 10, "Country", 1, 0, 'C')
     pdf.cell(60, 10, "Population", 1, 0, 'C')
     pdf.cell(60, 10, "Percentage", 1, 1, 'C')
 
-    # Add the rows of data to the PDF
     pdf.set_font("Arial", size=12)
-    for index, row in df_pandas.iterrows():
-        pdf.cell(60, 10, row["country"], 1, 0, 'C')  # Add country name
-        pdf.cell(60, 10, str(row["population"]), 1, 0, 'C')  # Add population as string
-        pdf.cell(60, 10, row["percentage"], 1, 1, 'C')  # Add population percentage
+    for _, row in df_pandas.iterrows():
+        pdf.cell(60, 10, row["country"], 1, 0, 'C')
+        pdf.cell(60, 10, str(row["population"]), 1, 0, 'C')
+        pdf.cell(60, 10, row["percentage"], 1, 1, 'C')
 
-    # Define the file path to save the PDF
+    # Convert PDF to bytes for comparison
+    new_pdf_content = pdf.output(dest='S').encode('latin1')
+
+    # Define the file path
     pdf_file = "./data/cleaned_data_output/population_report.pdf"
 
-    # Save the generated PDF file
-    pdf.output(pdf_file)
+    # Check if the file exists and compare content
+    if os.path.exists(pdf_file):
+        with open(pdf_file, "rb") as existing_file:
+            old_pdf_content = existing_file.read()
+        if old_pdf_content == new_pdf_content:
+            print("No changes detected. PDF not saved.")
+            return
+
+    # Save the new PDF only if different
+    with open(pdf_file, "wb") as file:
+        file.write(new_pdf_content)
+    
     print(f"PDF saved as: {pdf_file}")
+
+# Example usage
+spark = SparkSession.builder.appName("CSV_to_GoogleSheets").getOrCreate()
+create_table(spark)
 
 def create_report(spark):
     # Read the cleaned data CSV file using Spark and create a DataFrame
