@@ -4,7 +4,7 @@ import shutil
 import os
 import logging
 
-def advanced_analysis(spark):
+def previous_years(spark):
     try:
         # Read CSV file into a DataFrame with header and schema inference
         df = spark.read.csv("./data/cleaned_data_output", header=True, inferSchema=True)
@@ -70,4 +70,4 @@ if __name__ == "__main__":
 
     # Run the function if the script is executed directly
 
-    advanced_analysis(spark)
+    previous_years(spark)
