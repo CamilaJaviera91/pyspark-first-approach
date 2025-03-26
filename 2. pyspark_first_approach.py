@@ -58,6 +58,19 @@ def new_col(spark):
         df = df.withColumn("urban_pop", 
                     F.format_number((F.col("population_2020") * 
                         (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)), 2))
+        
+        df = df.withColumn(
+                            "rural_pop",
+                            F.when(
+                                (F.col("urban_pop_%") == 0) | (F.col("urban_pop_%") == "0 %"), 0
+                            ).otherwise(
+                                F.format_number(
+                                    F.col("population_2020")
+                                    - (F.col("population_2020") * (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)),
+                                    2,
+                                )
+                            )
+                        )
 
         # Define the output folder and file paths
         output_folder = "./data/cleaned_data_output/"
