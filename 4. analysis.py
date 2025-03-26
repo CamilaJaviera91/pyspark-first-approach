@@ -4,29 +4,37 @@ import shutil
 import os
 import logging
 
-def previous_years(spark):
+def new_cols(spark):
     try:
         # Read CSV file into a DataFrame with header and schema inference
         df = spark.read.csv("./data/cleaned_data_output", header=True, inferSchema=True)
         logger.info("CSV file successfully loaded.")
 
-        df = df.withColumn("population_2024", F.format_number(((F.col("population_2020")*108)/100), 2))
+        df = df.withColumn("population_2024", (F.col("population_2020") * 1.08).cast("int"))
+        
+        df = df.withColumn("population_2023", (F.col("population_2020") * 1.06).cast("int"))
 
-        df = df.withColumn("population_2023", F.format_number(((F.col("population_2020")*106)/100), 2))
+        df = df.withColumn("population_2022", (F.col("population_2020") * 1.04).cast("int"))
 
-        df = df.withColumn("population_2022", F.format_number(((F.col("population_2020")*104)/100), 2))
+        df = df.withColumn("population_2021", (F.col("population_2020") * 1.02).cast("int"))
 
-        df = df.withColumn("population_2021", F.format_number(((F.col("population_2020")*102)/100), 2))
+        df = df.withColumn("population_2019", (F.col("population_2020") * 0.98).cast("int"))
 
-        df = df.withColumn("population_2019", F.format_number(((F.col("population_2020")*98)/100), 2))
+        df = df.withColumn("population_2018", (F.col("population_2020") * 0.96).cast("int"))
 
-        df = df.withColumn("population_2018", F.format_number(((F.col("population_2020")*96)/100), 2))
+        df = df.withColumn("population_2017", (F.col("population_2020") * 0.94).cast("int"))
 
-        df = df.withColumn("population_2017", F.format_number(((F.col("population_2020")*94)/100), 2))
+        df = df.withColumn("population_2016", (F.col("population_2020") * 0.92).cast("int"))
 
-        df = df.withColumn("population_2016", F.format_number(((F.col("population_2020")*92)/100), 2))
+        df = df.withColumn("population_2015", (F.col("population_2020") * 0.90).cast("int"))
 
-        df = df.withColumn("population_2015", F.format_number(((F.col("population_2020")*90)/100), 2))
+        df = df.withColumn("population_density", F.col("population_2020") / F.col("land_area_km²"))
+        
+        df = df.withColumn("population_density", F.round(F.col("population_density"), 2))
+
+        df = df.withColumn("growth_rate", (F.col("population_2020") - F.col("population_2015")) / (F.col("population_2015") * 100))
+        
+        df = df.withColumn("growth_rate", F.round(F.col("growth_rate"), 2))
 
         # Define the output folder and file paths
         output_folder = "./data/cleaned_data_output/analysis/"
