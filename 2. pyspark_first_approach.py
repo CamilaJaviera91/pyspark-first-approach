@@ -53,24 +53,25 @@ def new_col(spark):
         df = df.withColumn("percentage", F.round((F.col("population_2020") / F.col("total_population")) * 100, 2))
 
         # Format the percentage as a string with a '%' symbol
-        df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
+        df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 0), F.lit("%")))
 
         df = df.withColumn("urban_pop", 
-                    F.format_number((F.col("population_2020") * 
-                        (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)), 2))
+                            (F.col("population_2020") * 
+                            (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)
+                            ).cast("int")
+)
+
         
-        df = df.withColumn(
-                            "rural_pop",
+        df = df.withColumn("rural_pop",
                             F.when(
                                 (F.col("urban_pop_%") == 0) | (F.col("urban_pop_%") == "0 %"), 0
                             ).otherwise(
-                                F.format_number(
-                                    F.col("population_2020")
-                                    - (F.col("population_2020") * (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)),
-                                    2,
-                                )
+                                (F.col("population_2020") - 
+                                (F.col("population_2020") * (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100))
+                                ).cast("int")
                             )
                         )
+
 
         # Define the output folder and file paths
         output_folder = "./data/cleaned_data_output/"
@@ -235,7 +236,8 @@ def create_report(spark):
         pdf.cell(40, 10, str(row["Population"]), 1, 0, 'C')
         pdf.cell(40, 10, row["Percentage"], 1, 0, 'C')
         pdf.cell(40, 10, str(row["% Urban Population"]), 1, 0, 'C')
-        pdf.cell(40, 10, row["Urban Population"], 1, 1, 'C')
+        pdf.cell(40, 10, str(row["Urban Population"]), 1, 1, 'C')
+
 
     # Define the file path to save the PDF
     pdf_file = "./data/cleaned_data_output/pdf_report.pdf"
