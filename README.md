@@ -187,4 +187,12 @@ pip install pyspark
 
 ### 📖 Explanation of the Code:
 
+#### previous_years(spark):
+
+- The code loads a CSV into a PySpark DataFrame, calculates population estimates for multiple years, saves the result in a new CSV, renames the final file, removes unnecessary files, and handles logs and errors.
+
 ### ✅ Example Output:
+
+- **previous_years(spark):**
+
+<img src="./images/pic10.png" alt="analysis_sheets" width="500"/>
