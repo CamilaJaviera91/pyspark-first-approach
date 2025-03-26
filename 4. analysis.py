@@ -70,4 +70,4 @@ if __name__ == "__main__":
 
     # Run the function if the script is executed directly
 
-    advanced_analysis(spark)
+    previous_years(spark)
