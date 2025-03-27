@@ -53,9 +53,15 @@ def new_col(spark):
         df = df.withColumn("urban_pop", 
                             (F.col("population_2020") * 
                             (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)
-                            ).cast("int")
-)
-
+                            ).cast("int"))
+        
+        df = df.withColumn("rural_pop_%",
+                            F.when(
+                                (F.col("urban_pop_%") == 0) | (F.col("urban_pop_%") == "0 %"), F.lit("0 %")
+                            ).otherwise(
+                                F.concat(F.lit(100 - F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double").cast("int")), F.lit(" %"))
+                            )
+                        )
         
         df = df.withColumn("rural_pop",
                             F.when(
