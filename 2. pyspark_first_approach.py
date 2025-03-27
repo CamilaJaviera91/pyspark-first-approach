@@ -122,21 +122,27 @@ def plot_data(spark):
 
     plt.show()  # Display the plot
 
+import matplotlib.pyplot as plt
+
 def plot_pie_chart(spark):
     # Read the cleaned data CSV file using Spark
     df_data = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
 
-    # Convert the Spark DataFrame to a Pandas DataFrame to enable plotting with Matplotlib
+    # Convert 'percentage' to a numeric type
+    df_data = df_data.withColumn("percentage", df_data["percentage"].cast("double"))
+
+    # Convert the Spark DataFrame to a Pandas DataFrame
     df_pandas = df_data.select("country_or_dependency", "percentage").toPandas()
 
     # Get the top 10 countries by population percentage
-    top_10 = df_pandas[:10]
+    top_10 = df_pandas.nlargest(10, "percentage")  # Asegura que sean los 10 más grandes
 
     # Plot a pie chart
     plt.figure(figsize=(8, 8))
     plt.pie(top_10["percentage"], labels=top_10["country_or_dependency"], autopct='%1.1f%%', startangle=140, textprops={'fontsize': 10})
     plt.title("Population Distribution of Top 10 Countries (Percentage)", fontsize=14)
     plt.show()
+
 
 def create_table(spark):
     # Read CSV with Spark
