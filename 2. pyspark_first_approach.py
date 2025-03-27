@@ -203,7 +203,9 @@ def create_report(spark):
                             population_2020 AS `Population`, 
                             percentage_formatted AS `Percentage`,
                             `urban_pop_%` AS `% Urban Population`,
-                            urban_pop AS `Urban Population`
+                            urban_pop AS `Urban Population`,
+                            `rural_pop_%` AS `% Rural Population`,
+                            rural_pop AS `Rural Population`
                         FROM population_table
                         ORDER BY population_2020 DESC
                     """)
@@ -231,6 +233,8 @@ def create_report(spark):
     pdf.cell(40, 10, "Percentage", 1, 0, 'C')
     pdf.cell(40, 10, "% Urban Population", 1, 0, 'C')
     pdf.cell(40, 10, "Urban Population", 1, 1, 'C')
+    pdf.cell(40, 10, "% Rural Population", 1, 0, 'C')
+    pdf.cell(40, 10, "Rural Population", 1, 1, 'C')
 
     # Add the rows of data to the PDF
     pdf.set_font("Arial", size=10)
@@ -240,6 +244,8 @@ def create_report(spark):
         pdf.cell(40, 10, row["Percentage"], 1, 0, 'C')
         pdf.cell(40, 10, str(row["% Urban Population"]), 1, 0, 'C')
         pdf.cell(40, 10, str(row["Urban Population"]), 1, 1, 'C')
+        pdf.cell(40, 10, str(row["% Rural Population"]), 1, 0, 'C')
+        pdf.cell(40, 10, str(row["Rural Population"]), 1, 1, 'C')
 
 
     # Define the file path to save the PDF
