@@ -23,19 +23,19 @@ def new_cols(spark):
                    (F.col("population_2020") * (F.rand() * (1.02 - 1.001) + 1.001)).cast("int"))
 
         df = df.withColumn("population_2019", 
-                   (F.col("population_2020") * (F.rand() * (0.98 - 0.0961) + 0.0961)).cast("int"))
+                   (F.col("population_2020") * (F.rand() * (0.98 - 0.961) + 0.961)).cast("int"))
 
         df = df.withColumn("population_2018", 
-                   (F.col("population_2020") * (F.rand() * (0.96 - 0.0941) + 0.0941)).cast("int"))
+                   (F.col("population_2020") * (F.rand() * (0.96 - 0.941) + 0.941)).cast("int"))
 
         df = df.withColumn("population_2017", 
-                   (F.col("population_2020") * (F.rand() * (0.94 - 0.0921) + 0.0921)).cast("int"))
+                   (F.col("population_2020") * (F.rand() * (0.94 - 0.921) + 0.921)).cast("int"))
 
         df = df.withColumn("population_2016", 
-                   (F.col("population_2020") * (F.rand() * (0.92 - 0.0901) + 0.0901)).cast("int"))
+                   (F.col("population_2020") * (F.rand() * (0.92 - 0.901) + 0.901)).cast("int"))
 
         df = df.withColumn("population_2015", 
-                   (F.col("population_2020") * (F.rand() * (0.90 - 0.0881) + 0.0881)).cast("int"))
+                   (F.col("population_2020") * (F.rand() * (0.90 - 0.881) + 0.881)).cast("int"))
 
         df = df.withColumn("population_density", F.col("population_2020") / F.col("land_area_km²"))
         
