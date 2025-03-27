@@ -48,14 +48,20 @@ def new_col(spark):
         df = df.withColumn("percentage", F.round((F.col("population_2020") / F.col("total_population")) * 100, 2))
 
         # Format the percentage as a string with a '%' symbol
-        df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 0), F.lit("%")))
+        df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
 
         df = df.withColumn("urban_pop", 
                             (F.col("population_2020") * 
                             (F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double") / 100)
-                            ).cast("int")
-)
-
+                            ).cast("int"))
+        
+        df = df.withColumn("rural_pop_%",
+                            F.when(
+                                (F.col("urban_pop_%") == 0) | (F.col("urban_pop_%") == "0 %"), F.lit("0 %")
+                            ).otherwise(
+                                F.concat(F.lit(100 - F.regexp_replace(F.col("urban_pop_%"), " %", "").cast("double").cast("int")), F.lit(" %"))
+                            )
+                        )
         
         df = df.withColumn("rural_pop",
                             F.when(
@@ -197,7 +203,9 @@ def create_report(spark):
                             population_2020 AS `Population`, 
                             percentage_formatted AS `Percentage`,
                             `urban_pop_%` AS `% Urban Population`,
-                            urban_pop AS `Urban Population`
+                            urban_pop AS `Urban Population`,
+                            `rural_pop_%` AS `% Rural Population`,
+                            rural_pop AS `Rural Population`
                         FROM population_table
                         ORDER BY population_2020 DESC
                     """)
@@ -225,6 +233,8 @@ def create_report(spark):
     pdf.cell(40, 10, "Percentage", 1, 0, 'C')
     pdf.cell(40, 10, "% Urban Population", 1, 0, 'C')
     pdf.cell(40, 10, "Urban Population", 1, 1, 'C')
+    pdf.cell(40, 10, "% Rural Population", 1, 0, 'C')
+    pdf.cell(40, 10, "Rural Population", 1, 1, 'C')
 
     # Add the rows of data to the PDF
     pdf.set_font("Arial", size=10)
@@ -234,6 +244,8 @@ def create_report(spark):
         pdf.cell(40, 10, row["Percentage"], 1, 0, 'C')
         pdf.cell(40, 10, str(row["% Urban Population"]), 1, 0, 'C')
         pdf.cell(40, 10, str(row["Urban Population"]), 1, 1, 'C')
+        pdf.cell(40, 10, str(row["% Rural Population"]), 1, 0, 'C')
+        pdf.cell(40, 10, str(row["Rural Population"]), 1, 1, 'C')
 
 
     # Define the file path to save the PDF
