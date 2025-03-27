@@ -48,7 +48,7 @@ def new_col(spark):
         df = df.withColumn("percentage", F.round((F.col("population_2020") / F.col("total_population")) * 100, 2))
 
         # Format the percentage as a string with a '%' symbol
-        df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 0), F.lit("%")))
+        df = df.withColumn("percentage_formatted", F.concat(F.round(F.col("percentage"), 2), F.lit("%")))
 
         df = df.withColumn("urban_pop", 
                             (F.col("population_2020") * 
