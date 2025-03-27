@@ -23,11 +23,6 @@ def new_col(spark):
         df = spark.read.csv("./data/clean_data.csv", header=True, inferSchema=True)
         logger.info("CSV file successfully loaded.")
 
-        print("\n")
-
-        # Print the schema of the DataFrame
-        df.printSchema()
-
         # Count the number of rows in the DataFrame
         count_files = df.count()
 
@@ -71,7 +66,9 @@ def new_col(spark):
                                 ).cast("int")
                             )
                         )
-
+        
+        # Print the schema of the DataFrame
+        df.printSchema()
 
         # Define the output folder and file paths
         output_folder = "./data/cleaned_data_output/"
