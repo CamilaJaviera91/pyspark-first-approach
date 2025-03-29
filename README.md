@@ -77,7 +77,7 @@ pip install windows-curses
 
 #### clean_data(folder_path):
 
-- Reads a CSV, replaces "N.A." with NaN, converts NaN to 0, and saves the result as clean_data.csv.
+- **Reads** a CSV, **replaces** "N.A." with NaN, **converts** NaN to 0, and **saves** the result as clean_data.csv.
 
 ### ✅ Example Output:
 
