@@ -117,7 +117,7 @@ pip install pyspark matplotlib fpdf
 
 #### create_table(spark):
 
-- This code reads a CSV file, selects the top 10 most populated countries, and generates a PDF with a table showing the country, population, and percentage. It then saves the PDF in a folder.
+- This code **reads** a CSV file, **selects the top 10** most populated countries, and **generates a PDF** with a table showing the country, population, and percentage. It then saves the PDF in a folder.
 
 #### create_report(spark):
 
