@@ -163,7 +163,7 @@ pip install gspread google-auth google-auth-oauthlib google-auth-httplib2 pyspar
 
 #### analysis(client):
 
-- This code reads a CSV file, clears a Google Sheets document, and saves the CSV data into that sheet.
+- This code **reads** a CSV file, **clears** a Google Sheets document, and **saves** the CSV data into that sheet.
 
 ### ✅ Example Output:
 
