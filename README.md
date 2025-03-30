@@ -211,6 +211,8 @@ pip install pyspark matplotlib
 
 #### correlation_analysis(df):
 
+- This function will analyze the relationship between population change and net migration.
+
 #### growth_country(df):
 
 ### ✅ Example Output:
