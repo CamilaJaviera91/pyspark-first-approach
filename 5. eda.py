@@ -1,7 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 import logging
-import pandas as pd
 import matplotlib.pyplot as plt
 
 def correlation_analysis(df):
