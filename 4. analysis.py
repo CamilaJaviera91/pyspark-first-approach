@@ -7,36 +7,36 @@ import logging
 def new_cols(spark):
     try:
         # Read CSV file into a DataFrame with header and schema inference
-        df = spark.read.csv("./data/cleaned_data_output", header=True, inferSchema=True)
+        df = spark.read.csv("./data/cleaned_data_output/cleaned_data.csv", header=True, inferSchema=True)
         logger.info("CSV file successfully loaded.")
 
         df = df.withColumn("population_2024", 
-                   (F.col("population_2020") * (F.rand() * (1.08 - 1.061) + 1.061)).cast("int"))
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 1.06)).cast("int"))
         
         df = df.withColumn("population_2023", 
-                   (F.col("population_2020") * (F.rand() * (1.06 - 1.041) + 1.041)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 1.04)).cast("int"))
+        
         df = df.withColumn("population_2022", 
-                   (F.col("population_2020") * (F.rand() * (1.04 - 1.021) + 1.021)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 1.02)).cast("int"))
+        
         df = df.withColumn("population_2021", 
-                   (F.col("population_2020") * (F.rand() * (1.02 - 1.001) + 1.001)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 1.00)).cast("int"))
+        
         df = df.withColumn("population_2019", 
-                   (F.col("population_2020") * (F.rand() * (0.98 - 0.961) + 0.961)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 0.96)).cast("int"))
+        
         df = df.withColumn("population_2018", 
-                   (F.col("population_2020") * (F.rand() * (0.96 - 0.941) + 0.941)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 0.94)).cast("int"))
+        
         df = df.withColumn("population_2017", 
-                   (F.col("population_2020") * (F.rand() * (0.94 - 0.921) + 0.921)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 0.92)).cast("int"))
+        
         df = df.withColumn("population_2016", 
-                   (F.col("population_2020") * (F.rand() * (0.92 - 0.901) + 0.901)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 0.90)).cast("int"))
+        
         df = df.withColumn("population_2015", 
-                   (F.col("population_2020") * (F.rand() * (0.90 - 0.881) + 0.881)).cast("int"))
-
+                        (F.coalesce(F.col("population_2020"), F.lit(0)) * (F.rand() * 0.02 + 0.88)).cast("int"))
+        
         df = df.withColumn("population_density", F.col("population_2020") / F.col("land_area_km²"))
         
         df = df.withColumn("population_density", F.round(F.col("population_density"), 2))
