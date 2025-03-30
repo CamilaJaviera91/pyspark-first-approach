@@ -20,20 +20,22 @@ def correlation_analysis(df):
 def growth_country(df):
 
     # Convert PySpark DataFrame to Pandas
-    df_pandas = df.select("country_or_dependency", "population_2020", "population_2021", "population_2022", 
-                          "population_2023").toPandas()
+    df_pandas = df.select("country_or_dependency", "population_2015", "population_2016", "population_2017", 
+                          "population_2018", "population_2019", "population_2020", "population_2021", 
+                          "population_2022", "population_2023").toPandas()
     
     # Select a country (example: India)
     df_country = df_pandas[df_pandas["country_or_dependency"] == "CHINA"]
 
     # Plot the data
-    years = ["population_2020", "population_2021", "population_2022", "population_2023"]
+    years = ["population_2015", "population_2016", "population_2017", "population_2018", "population_2019", 
+             "population_2020", "population_2021", "population_2022", "population_2023"]
     values = df_country[years].values[0]
 
     plt.plot(years, values, marker="o", linestyle="-")
     plt.xlabel("Year")
     plt.ylabel("Population")
-    plt.title("Population Growth in India")
+    plt.title("Population Growth in China")
     plt.show()
 
 if __name__ == "__main__":
