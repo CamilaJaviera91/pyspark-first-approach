@@ -217,4 +217,8 @@ pip install pyspark matplotlib
 
 - **correlation_analysis(df):**
 
+<img src="./images/pic12.png" alt="eda1" width="500"/>
+
 - **growth_country(df):**
+
+<img src="./images/pic13.png" alt="eda2" width="500"/>
