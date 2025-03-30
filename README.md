@@ -215,6 +215,9 @@ pip install pyspark matplotlib
 
 #### growth_country(df):
 
+- This function visualizes population growth for China between 2015 and 2023.
+- You can change "CHINA" to any country name you want to analyze, as long as the country is present in the country_or_dependency column of the DataFrame.
+
 ### ✅ Example Output:
 
 - **correlation_analysis(df):**
