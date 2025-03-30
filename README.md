@@ -197,3 +197,24 @@ pip install pyspark
 
 <img src="./images/pic10.png" alt="analysis_sheets" width="500"/>
 
+---
+
+## 👩‍💻 5. eda.py
+
+### 🔧 Install libraries that we are going to need:
+
+```
+pip install pyspark matplotlib
+```
+
+### 📖 Explanation of the Code:
+
+#### correlation_analysis(df):
+
+#### growth_country(df):
+
+### ✅ Example Output:
+
+- **correlation_analysis(df):**
+
+- **growth_country(df):**
