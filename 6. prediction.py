@@ -51,7 +51,7 @@ def train_population_model(df, model_type="linear"):
 
     # Show ordered results
     # Mostrar resultados sin ordenar por población
-    predictions.orderBy("index").select("Country", "features", "population_2020", "prediction").show()
+    predictions.orderBy("index").select("Country", "features", "population_2020", "prediction").show(10)
 
 if __name__ == "__main__":
     # Create a Spark session
