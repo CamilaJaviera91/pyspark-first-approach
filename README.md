@@ -230,7 +230,7 @@ pip install pyspark matplotlib
 
 ---
 
-## 👩‍💻 5. prediction.py
+## 👩‍💻 6. prediction.py
 
 ### 🔧 Install libraries that we are going to need:
 
@@ -243,3 +243,7 @@ pip install pyspark
 - 
 
 ### ✅ Example Output:
+
+- **prediction:**
+
+<img src="./images/pic14.png" alt="prediction" width="500"/>
