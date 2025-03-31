@@ -240,7 +240,7 @@ pip install pyspark
 
 ### 📖 Explanation of the Code:
 
-- 
+- This code trains a linear regression model to predict the 2025 population based on features such as yearly change, fertility rate, and net migration.
 
 ### ✅ Example Output:
 
