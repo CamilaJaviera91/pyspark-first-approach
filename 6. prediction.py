@@ -3,6 +3,7 @@ from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.regression import LinearRegression
 from pyspark.sql import functions as F
 import logging
+from pyspark.sql.window import Window
 
 def train_population_model(df, model_type="linear"):
     
@@ -30,6 +31,9 @@ def train_population_model(df, model_type="linear"):
     assembler = VectorAssembler(inputCols=feature_cols, outputCol="features")
     df = assembler.transform(df)
 
+    window_spec = Window.orderBy(F.monotonically_increasing_id())
+    df = df.withColumn("index", F.row_number().over(window_spec))
+
     # Split data into train/test sets
     train_data, test_data = df.randomSplit([0.8, 0.2], seed=42)
 
@@ -46,7 +50,8 @@ def train_population_model(df, model_type="linear"):
     predictions = predictions.withColumn("prediction", F.round("prediction", 0).cast("long"))
 
     # Show ordered results
-    predictions.orderBy(F.desc("population_2020")).select("Country", "features", "population_2020", "prediction").show()
+    # Mostrar resultados sin ordenar por población
+    predictions.orderBy("index").select("Country", "features", "population_2020", "prediction").show()
 
 if __name__ == "__main__":
     # Create a Spark session
