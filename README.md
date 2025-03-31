@@ -227,3 +227,19 @@ pip install pyspark matplotlib
 - **growth_country(df):**
 
 <img src="./images/pic13.png" alt="eda2" width="500"/>
+
+---
+
+## 👩‍💻 5. prediction.py
+
+### 🔧 Install libraries that we are going to need:
+
+```
+pip install pyspark
+```
+
+### 📖 Explanation of the Code:
+
+- 
+
+### ✅ Example Output:
